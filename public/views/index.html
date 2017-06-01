@@ -1,0 +1,233 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>TweetBeat</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/android-desktop.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <link rel="apple-touch-icon-precomposed" href="images/ios-desktop.png">
+
+    <link rel="shortcut icon" href="images/favicon.png">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.light_blue-yellow.min.css" />
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="javascripts/tweetController.js"></script>
+  </head>
+
+  <body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base" ng-app="myApp" ng-Controller="tweetController">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+        </div>
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+          <h3>TweetBeat</h3>
+        </div>
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+        </div>
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
+          <a href="#overview" class="mdl-layout__tab is-active">Overview</a>
+        </div>
+      </header>
+      <main class="mdl-layout__content">
+        <div class="mdl-layout__tab-panel is-active" id="overview">
+          <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+            <div class="mdl-card mdl-cell mdl-cell--12-col-desktop mdl-cell--8-col-tablet mdl-cell--6-col-phone">
+              <div class="mdl-card__supporting-text">
+                <h4>What the heck is this?</h4>
+                Good question. It analyses tweets, that's about it.
+                <form>
+                  <div class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" type="text" ng-model="formData.searchThis" name="searchcriteria">
+                    <label class="mdl-textfield__label" for="sample1">Enter search criteria</label>
+                  </div>
+                  <button class="mdl-button mdl-js-button mdl-button--icon" ng-click="getTweets()">
+                    <i class="material-icons">search</i>
+                  </button>
+                  <label class="mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect" for="icon-toggle-1">
+                    <input type="checkbox" id="icon-toggle-1" class="mdl-icon-toggle__input" ng-model="formData.positive">
+                    <i class="mdl-icon-toggle__label material-icons">mood</i>
+                  </label>
+                  <label class="mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect" for="icon-toggle-2">
+                    <input type="checkbox" id="icon-toggle-2" class="mdl-icon-toggle__input" ng-model="formData.negative">
+                    <i class="mdl-icon-toggle__label material-icons">mood_bad</i>
+                  </label>
+                  <label class="mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect" for="icon-toggle-3">
+                    <input type="checkbox" id="icon-toggle-3" class="mdl-icon-toggle__input" ng-model="formData.media">
+                    <i class="mdl-icon-toggle__label material-icons">collections</i>
+                  </label>
+                  <div id="addOptions">
+                    More options
+                    <!-- Accent-colored flat button -->
+                    <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" onclick="slide">
+                      <i class="material-icons">expand_more</i>
+                    </button>
+                  </div>
+                  <div id="sliderOptions" hidden="hidden" style="background-color:red; height=700px">
+                    lol
+                  </div>
+
+                  <style>
+
+                  #geoSelection{
+                    height: 500px;
+                  }
+
+                  #map {
+                    height: 100%;
+                  }
+                  </style>
+
+                  <div id="geoSelection">
+
+                    <div id="map">
+                    </div>
+
+                  </div>
+                  <br>
+                  Radius
+                  <input class="mdl-slider mdl-js-slider" id="radiusSlider" name="radius" type="range" min="0" max="100000" value="10000" tabindex="0" oninput="updateRadius()" ng-model="formData.radius">
+                  <input type="text" id="lat" name="lat" ng-model="formData.lat"/>
+                  <input type="text" id="lng" name="lng" ng-model="formData.lng"/>
+                </form>
+              </div>
+            </div>
+          </section>
+
+        <footer class="mdl-mega-footer">
+          <div class="mdl-mega-footer--middle-section">
+            <div class="mdl-mega-footer--drop-down-section">
+              <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+              <h1 class="mdl-mega-footer--heading">Features</h1>
+              <ul class="mdl-mega-footer--link-list">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Terms</a></li>
+                <li><a href="#">Partners</a></li>
+                <li><a href="#">Updates</a></li>
+              </ul>
+            </div>
+            <div class="mdl-mega-footer--drop-down-section">
+              <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+              <h1 class="mdl-mega-footer--heading">Details</h1>
+              <ul class="mdl-mega-footer--link-list">
+                <li><a href="#">Spec</a></li>
+                <li><a href="#">Tools</a></li>
+                <li><a href="#">Resources</a></li>
+              </ul>
+            </div>
+            <div class="mdl-mega-footer--drop-down-section">
+              <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+              <h1 class="mdl-mega-footer--heading">Technology</h1>
+              <ul class="mdl-mega-footer--link-list">
+                <li><a href="#">How it works</a></li>
+                <li><a href="#">Patterns</a></li>
+                <li><a href="#">Usage</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Contracts</a></li>
+              </ul>
+            </div>
+            <div class="mdl-mega-footer--drop-down-section">
+              <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
+              <h1 class="mdl-mega-footer--heading">FAQ</h1>
+              <ul class="mdl-mega-footer--link-list">
+                <li><a href="#">Questions</a></li>
+                <li><a href="#">Answers</a></li>
+                <li><a href="#">Contact us</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="mdl-mega-footer--bottom-section">
+            <div class="mdl-logo">
+              More Information
+            </div>
+            <ul class="mdl-mega-footer--link-list">
+              <li><a href="https://developers.google.com/web/starter-kit/">Tweeting since '16</a></li>
+              <li><a href="#">Help</a></li>
+              <li><a href="#">Privacy and Terms</a></li>
+            </ul>
+          </div>
+        </footer>
+      </main>
+    </div>
+    <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous">
+    </script>
+    <script type="text/javascript">
+      function slide(){
+        $( "#sliderOptions" ).slideDown( "slow", function() {
+        // Animation complete.
+        });
+      }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBURoUWUwpr7CbCUJtxpP-PK9hN6VSwgzw&callback=initMap"
+    async defer></script>
+
+    <script>
+      var map;
+      var shapes = [];
+      var cityCircle;
+
+      function initMap() {
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 54.5973, lng: -5.9301},
+          zoom: 8
+
+        });
+
+        var marker = new google.maps.Marker({
+        position: {lat: 54.5973, lng: -5.9301},
+        map: map
+        });
+
+        cityCircle = new google.maps.Circle({
+          strokeColor: '#3a85ff',
+          strokeOpacity: 0.8,
+          strokeWeight: 2,
+          fillColor: '#3a85ff',
+          fillOpacity: 0.35,
+          map: map,
+          center: {lat: 54.5973, lng: -5.9301},
+          radius: 10000,
+          draggable:false
+        });
+
+        google.maps.event.addListener(map, 'click', function( event ){
+          var myLatLng = {lat: event.latLng.lat(), lng: event.latLng.lng()};
+          var radius = document.getElementById("radiusSlider").value;
+          marker.setPosition(myLatLng);
+          updateCircleLocation(myLatLng, cityCircle);
+          var lat = document.getElementById('lat');
+          var lng = document.getElementById('lng');
+          lat.value=myLatLng.lat;
+          lng.value=myLatLng.lng;
+        });
+      }
+
+      function updateCircleLocation(location, circle) {
+        circle.setCenter(location);
+      }
+
+      function updateRadius() {
+        var radius = document.getElementById("radiusSlider").value;
+        cityCircle.setRadius(parseInt(radius));
+      }
+
+    </script>
+
+  </body>
+</html>
